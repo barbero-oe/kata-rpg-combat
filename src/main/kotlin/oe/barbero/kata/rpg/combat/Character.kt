@@ -1,26 +1,19 @@
 package oe.barbero.kata.rpg.combat
 
-import kotlin.math.max
-import kotlin.math.min
-
 class Character private constructor(
-    private var remainingHealth: Int,
+    private val vitality: Vitality,
     val level: Int
 ) {
     val health: Int
-        get() = remainingHealth
+        get() = vitality.amount
     val isAlive: Boolean
-        get() = remainingHealth > 0
+        get() = vitality.hasVitality
 
     fun attack(victim: Character, damage: Int) {
         val levelDifference = this.level - victim.level
         val netDamage = calculateDamage(damage, levelDifference)
         if (this !== victim)
             victim.damage(netDamage)
-    }
-
-    private fun damage(damage: Int) {
-        this.remainingHealth = max(0, this.remainingHealth - damage)
     }
 
     private fun calculateDamage(baseDamage: Int, levelDifference: Int): Int {
@@ -36,12 +29,11 @@ class Character private constructor(
             wounded.cure(healing)
     }
 
-    private fun cure(healing: Int) {
-        this.remainingHealth = min(1000, this.remainingHealth + healing)
-    }
+    private fun damage(damage: Int) = vitality.damage(damage)
+    private fun cure(healing: Int) = vitality.heal(healing)
 
     companion object {
-        fun starting() = Character(1000, 1)
-        fun with(health: Int = 1000, level: Int = 1) = Character(health, level)
+        fun starting() = Character(Vitality(1000), 1)
+        fun with(health: Int = 1000, level: Int = 1) = Character(Vitality(health), level)
     }
 }
