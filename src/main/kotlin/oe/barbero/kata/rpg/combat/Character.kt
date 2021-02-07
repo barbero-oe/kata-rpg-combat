@@ -33,7 +33,11 @@ class Character private constructor(
 
     fun heal(wounded: Character, healing: Int) {
         if (wounded.isAlive && this === wounded)
-            wounded.remainingHealth = min(1000, wounded.remainingHealth + healing)
+            wounded.cure(healing)
+    }
+
+    private fun cure(healing: Int) {
+        this.remainingHealth = min(1000, this.remainingHealth + healing)
     }
 
     companion object {
