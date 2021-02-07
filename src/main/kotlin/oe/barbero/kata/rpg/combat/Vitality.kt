@@ -10,12 +10,13 @@ class Vitality(vitality: Int) {
     val hasVitality: Boolean
         get() = amount > 0
 
-    fun damage(damage: Int) {
-        this.amount = max(MIN_HEALTH, this.amount - damage)
+    fun damage(damage: Damage) {
+        this.amount = max(MIN_HEALTH, this.amount - damage())
     }
 
     fun heal(healing: Int) {
-        this.amount = min(MAX_HEALTH, this.amount + healing)
+        if (hasVitality)
+            this.amount = min(MAX_HEALTH, this.amount + healing)
     }
 
     companion object {

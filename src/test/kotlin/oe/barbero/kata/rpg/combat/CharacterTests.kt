@@ -54,10 +54,9 @@ class CharacterTests {
 
     @Test
     fun `dead character cannot be healed`() {
-        val healer = Character.starting()
         val dead = Character.with(health = 0)
 
-        healer.heal(dead, 600)
+        dead.heal(dead, 600)
 
         assertThat(dead.isAlive).isFalse
         assertThat(dead.health).isEqualTo(0)

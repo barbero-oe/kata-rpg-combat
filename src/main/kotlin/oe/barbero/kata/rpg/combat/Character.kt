@@ -10,26 +10,18 @@ class Character private constructor(
         get() = vitality.hasVitality
 
     fun attack(victim: Character, damage: Int) {
-        val levelDifference = this.level - victim.level
-        val netDamage = calculateDamage(damage, levelDifference)
-        if (this !== victim)
-            victim.damage(netDamage)
-    }
-
-    private fun calculateDamage(baseDamage: Int, levelDifference: Int): Int {
-        return when {
-            levelDifference <= -5 -> (baseDamage * 0.5).toInt()
-            levelDifference >= 5 -> (baseDamage * 1.5).toInt()
-            else -> baseDamage
+        if (this !== victim) {
+            val totalDamage = Damage(damage, LevelModifier(level, victim.level))
+            victim.damage(totalDamage)
         }
     }
 
     fun heal(wounded: Character, healing: Int) {
-        if (wounded.isAlive && this === wounded)
+        if (this === wounded)
             wounded.cure(healing)
     }
 
-    private fun damage(damage: Int) = vitality.damage(damage)
+    private fun damage(damage: Damage) = vitality.damage(damage)
     private fun cure(healing: Int) = vitality.heal(healing)
 
     companion object {
