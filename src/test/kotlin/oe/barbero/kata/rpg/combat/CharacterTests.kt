@@ -81,4 +81,24 @@ class CharacterTests {
 
         assertThat(another.health).isEqualTo(500)
     }
+
+    @Test
+    fun `if victim is higher level the damage is reduced`() {
+        val attacker = Character.starting()
+        val victim = Character.with(level = 6)
+
+        attacker.attack(victim, 200)
+
+        assertThat(victim.health).isEqualTo(900)
+    }
+
+    @Test
+    fun `if victim is lower level the damage is increased`() {
+        val attacker = Character.with(level = 6)
+        val victim = Character.starting()
+
+        attacker.attack(victim, 200)
+
+        assertThat(victim.health).isEqualTo(700)
+    }
 }
