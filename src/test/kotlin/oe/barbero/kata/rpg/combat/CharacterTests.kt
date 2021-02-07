@@ -35,23 +35,21 @@ class CharacterTests {
     }
 
     @Test
-    fun `a character can heal another`() {
-        val healer = Character.starting()
-        val damaged = Character.with(health = 500)
+    fun `healing increases vitality`() {
+        val hero = Character.with(health = 500)
 
-        healer.heal(damaged, 100)
+        hero.heal(hero, 100)
 
-        assertThat(damaged.health).isEqualTo(600)
+        assertThat(hero.health).isEqualTo(600)
     }
 
     @Test
     fun `healing cannot surpass 1000 health`() {
-        val healer = Character.starting()
-        val damaged = Character.with(health = 500)
+        val hero = Character.with(health = 500)
 
-        healer.heal(damaged, 600)
+        hero.heal(hero, 600)
 
-        assertThat(damaged.health).isEqualTo(1000)
+        assertThat(hero.health).isEqualTo(1000)
     }
 
     @Test
@@ -63,5 +61,24 @@ class CharacterTests {
 
         assertThat(dead.isAlive).isFalse
         assertThat(dead.health).isEqualTo(0)
+    }
+
+    @Test
+    fun `a character cannot hurt itself`() {
+        val hero = Character.starting()
+
+        hero.attack(hero, 100)
+
+        assertThat(hero.health).isEqualTo(1000)
+    }
+
+    @Test
+    fun `a character can only heal itself`() {
+        val hero = Character.starting()
+        val another = Character.with(health = 500)
+
+        hero.heal(another, 100)
+
+        assertThat(another.health).isEqualTo(500)
     }
 }

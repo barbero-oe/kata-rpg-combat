@@ -11,11 +11,12 @@ class Character private constructor(private var remainingHealth: Int) {
         get() = remainingHealth > 0
 
     fun attack(victim: Character, damage: Int) {
-        victim.remainingHealth = max(0, victim.remainingHealth - damage)
+        if (this !== victim)
+            victim.remainingHealth = max(0, victim.remainingHealth - damage)
     }
 
     fun heal(wounded: Character, healing: Int) {
-        if (wounded.isAlive)
+        if (wounded.isAlive && this === wounded)
             wounded.remainingHealth = min(1000, wounded.remainingHealth + healing)
     }
 
