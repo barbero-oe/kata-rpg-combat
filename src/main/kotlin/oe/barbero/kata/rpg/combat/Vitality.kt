@@ -4,11 +4,9 @@ import kotlin.math.max
 import kotlin.math.min
 
 class Vitality(vitality: Int) {
+    val hasVitality: Boolean get() = amount > 0
     var amount: Int = vitality
         private set
-
-    val hasVitality: Boolean
-        get() = amount > 0
 
     fun damage(damage: Damage) {
         this.amount = max(MIN_HEALTH, this.amount - damage())
@@ -20,7 +18,7 @@ class Vitality(vitality: Int) {
     }
 
     companion object {
-        const val MIN_HEALTH = 0
-        const val MAX_HEALTH = 1000
+        private const val MIN_HEALTH = 0
+        private const val MAX_HEALTH = 1000
     }
 }

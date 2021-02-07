@@ -4,10 +4,8 @@ class Character private constructor(
     private val vitality: Vitality,
     val level: Int
 ) {
-    val health: Int
-        get() = vitality.amount
-    val isAlive: Boolean
-        get() = vitality.hasVitality
+    val health: Int get() = vitality.amount
+    val isAlive: Boolean get() = vitality.hasVitality
 
     fun attack(victim: Character, damage: Int) {
         if (this !== victim) {
@@ -25,7 +23,8 @@ class Character private constructor(
     private fun cure(healing: Int) = vitality.heal(healing)
 
     companion object {
-        fun starting() = Character(Vitality(1000), 1)
-        fun with(health: Int = 1000, level: Int = 1) = Character(Vitality(health), level)
+        private const val STARTING_VITALITY = 1000
+        fun starting() = Character(Vitality(STARTING_VITALITY), 1)
+        fun with(health: Int = STARTING_VITALITY, level: Int = 1) = Character(Vitality(health), level)
     }
 }
