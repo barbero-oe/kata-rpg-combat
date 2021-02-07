@@ -33,4 +33,35 @@ class CharacterTests {
         assertThat(victim.health).isEqualTo(0)
         assertThat(victim.isAlive).isFalse
     }
+
+    @Test
+    fun `a character can heal another`() {
+        val healer = Character.starting()
+        val damaged = Character.with(health = 500)
+
+        healer.heal(damaged, 100)
+
+        assertThat(damaged.health).isEqualTo(600)
+    }
+
+    @Test
+    fun `healing cannot surpass 1000 health`() {
+        val healer = Character.starting()
+        val damaged = Character.with(health = 500)
+
+        healer.heal(damaged, 600)
+
+        assertThat(damaged.health).isEqualTo(1000)
+    }
+
+    @Test
+    fun `dead character cannot be healed`() {
+        val healer = Character.starting()
+        val dead = Character.with(health = 0)
+
+        healer.heal(dead, 600)
+
+        assertThat(dead.isAlive).isFalse
+        assertThat(dead.health).isEqualTo(0)
+    }
 }
