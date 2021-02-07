@@ -16,7 +16,11 @@ class Character private constructor(
         val levelDifference = this.level - victim.level
         val netDamage = calculateDamage(damage, levelDifference)
         if (this !== victim)
-            victim.remainingHealth = max(0, victim.remainingHealth - netDamage)
+            victim.damage(netDamage)
+    }
+
+    private fun damage(damage: Int) {
+        this.remainingHealth = max(0, this.remainingHealth - damage)
     }
 
     private fun calculateDamage(baseDamage: Int, levelDifference: Int): Int {
